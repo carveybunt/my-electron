@@ -1,0 +1,14 @@
+{
+  "name": "my-electron",
+  "version": "1.0.0",
+  "description": "electron for fantastic-admin",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "electron"
+  ],
+  "author": "376377656@qq.com",
+  "license": "ISC"
+}
