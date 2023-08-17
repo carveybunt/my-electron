@@ -9,16 +9,20 @@ const { app, BrowserWindow } = require('electron')
 
 const path = require('path')
 
+// let progressInterval // 应用程序启动时进度条 函数
+
 function createWindow () {
   // Create the browser window.
   // 创建浏览窗口
   const mainWindow = new BrowserWindow({
+    // frame: false,// 无边框窗口
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
       // __dirname 字符串指向当前正在执行脚本的路径 (在本例中，它指向你的项目的根文件夹)。
       // path.join API 将多个路径联结在一起，创建一个跨平台的路径字符串。
+      webSecurity: false  //禁用同源策略,解决跨域问题
     }
   })
 
@@ -29,6 +33,26 @@ function createWindow () {
   // Open the DevTools.
   // 打开开发工具
   // mainWindow.webContents.openDevTools()
+
+  // 打开应用时的 进度条 ↓
+  // const INCREMENT = 0.03
+  // const INTERVAL_DELAY = 100 // ms
+
+  // let c = 0
+  // progressInterval = setInterval(() => {
+  //   // update progress bar to next value
+  //   // values between 0 and 1 will show progress, >1 will show indeterminate or stick at 100%
+  //   mainWindow.setProgressBar(c)
+
+  //   // increment or reset progress bar
+  //   if (c < 1) {
+  //     c += INCREMENT
+  //   }
+  //   //  else {
+  //   //   c = (-INCREMENT * 5) // reset to a bit less than 0 to show reset state
+  //   // }
+  // }, INTERVAL_DELAY)
+  // 打开应用时的 进度条 ↑
 }
 
 // This method will be called when Electron has finished
@@ -47,6 +71,12 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+
+// before the app is terminated, clear both timers
+// 在终止应用程序之前，请清除两个计时器
+// app.on('before-quit', () => {
+//   clearInterval(progressInterval)
+// })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
