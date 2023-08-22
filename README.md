@@ -18,7 +18,12 @@ yarn add electron --dev
 yarn add electron-packager --dev
 ```
 
+## 静态资源位置
+
+根目录下新建 `web` 文件夹，将静态资源放进去。
+
 ## bug
 
 - 程序启动时进度条重复加载，且关闭程序时报错。
 - s
+

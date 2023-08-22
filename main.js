@@ -9,30 +9,40 @@ const { app, BrowserWindow } = require('electron')
 
 const path = require('path')
 
+// run this as early in the main process as possible
+if (require('electron-squirrel-startup')) app.quit();
+
 // let progressInterval // 应用程序启动时进度条 函数
+
+
 
 function createWindow () {
   // Create the browser window.
   // 创建浏览窗口
   const mainWindow = new BrowserWindow({
-    // frame: false,// 无边框窗口
-    width: 800,
-    height: 600,
+    // frame: false,// 无边框窗口设置为 false
+    // title: "Carveybunt App", // 应用窗口标题,如果是网页 默认使用 网页 title
+    width: 1920,
+    height: 1080,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      // nodeIntegration: true, // 使渲染进程拥有node环境
       // __dirname 字符串指向当前正在执行脚本的路径 (在本例中，它指向你的项目的根文件夹)。
       // path.join API 将多个路径联结在一起，创建一个跨平台的路径字符串。
-      webSecurity: false  //禁用同源策略,解决跨域问题
+      // webSecurity: false,  //禁用同源策略,解决跨域问题,并且将自动 allowRunningInsecureContent 属性置 true
+      // allowRunningInsecureContent:true // 不允许网站在HTTPS中加载或执行非安全源(HTTP) 中的脚本代码、CSS或插件。设为true将禁用这种保护
     }
   })
 
   // and load the index.html of the app.
   // 加载 本地 index.html
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('./web/index.html')
+  // 加载指定的网页
+  // mainWindow.loadURL('http://127.0.0.1:8080/')
 
   // Open the DevTools.
   // 打开开发工具
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // 打开应用时的 进度条 ↓
   // const INCREMENT = 0.03
@@ -55,6 +65,9 @@ function createWindow () {
   // 打开应用时的 进度条 ↑
 }
 
+app.commandLine.appendSwitch('disable-web-security'); // 解决 跨域问题
+app.commandLine.appendSwitch('ignore-certificate-errors') // 忽略证书检测 
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -71,6 +84,8 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+
+
 
 // before the app is terminated, clear both timers
 // 在终止应用程序之前，请清除两个计时器

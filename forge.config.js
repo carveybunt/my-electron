@@ -1,11 +1,19 @@
 module.exports = {
   packagerConfig: {
-    asar: true,
+    asar: true, // 是否使用asar打包格式
+    overwrite: true, // 是否覆盖已存在的打包文件
+    productName: "Carveybunt", // 产品名称（用于生成安装包的名称）
     appVersion: "1.0.0",
-    name: "诚城软件", // 软件名称
-    appCopyright: "诚成城陈(376377656@qq.com)",
+    name: "chen", // 软件名称
+    // out: "build/", // 输出目录的路径
+    appCopyright: "chen(376377656@qq.com)",
     // icon: '/path/to/icon' // 指定应用程序图标路径, mac 512*512 icns; g ;win 256*256 ico
-    platform: "all" // 打包所有平台
+    ignore: [ // 不需要打包的文件和文件夹的路径列表
+      ".git",
+      ".vscode",
+      "node_modules/.cache",
+      "src"
+    ],
   },
   rebuildConfig: {},
   makers: [
@@ -13,14 +21,15 @@ module.exports = {
       name: '@electron-forge/maker-squirrel', // 打包成 exe
       config: {
         name: "chegnchegnchengchen",   //不能是中文，否则安装时出错，可以不设置
-        setupExe: "诚成城陈.exe",//可以是中文，可以不设置，如果不设置setupIcon，那么这里也可以不设置，用默认的名称就好
+        description: 'My Description',
+        // setupExe: "诚成城陈.exe",//可以是中文，可以不设置，如果不设置setupIcon，那么这里也可以不设置，用默认的名称就好
         // setupIcon: "./icon.ico",  //安装包图标，可以不设置，//如果使用中文应用名称，暂时不能设置setupIcon，否则报错   
         // loadingGif: "./installing.gif" // 安装时加载动画
       },
     },
     {
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin','linux'], // 指定打包的系统平台, darwin = mac
+      platforms: ['darwin','win32'], // 指定打包的系统平台, darwin = mac; win32 = windows
     },
     {
       // Linux 系统应用文件

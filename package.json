@@ -8,12 +8,12 @@
     "package": "electron-forge package",
     "package-win": "electron-forge package --arch x64 --platform win32",
     "make": "electron-forge make",
-    "make-win": "electron-forge make --arch x64 --platform win32"
+    "make-win": "electron-forge make --arch x64 --platform win32 --overwrite"
   },
   "keywords": [
     "electron"
   ],
-  "author": "376377656@qq.com",
+  "author": "诚成城陈",
   "license": "ISC",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
